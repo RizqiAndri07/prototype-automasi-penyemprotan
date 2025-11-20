@@ -18,7 +18,8 @@ void loop() {
     runBlynk();
     float temperature = getTemperature();
     float humidity = getHumidity();
-    digitalWrite(RELAY_PIN, humidity < 60.0 ? HIGH : LOW);
+    int stdHum = getStdHum();
+    digitalWrite(RELAY_PIN, humidity < stdHum ? HIGH : LOW);
     lcdPrint(0, 0, "Temp:" + String(temperature) + " C");
     lcdPrint(0,1, "Humidity:" + String(humidity) + " %");
     sendToBlynk(temperature, humidity);

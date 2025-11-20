@@ -4,4 +4,6 @@
 void initBlynk();
 void runBlynk();
 void sendToBlynk(float temperature, float humidity);
+int getStdTemp();
+int getStdHum();
 #endif
