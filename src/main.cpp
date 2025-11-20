@@ -19,7 +19,12 @@ void loop() {
     float temperature = getTemperature();
     float humidity = getHumidity();
     int stdHum = getStdHum();
-    digitalWrite(RELAY_PIN, humidity < stdHum ? HIGH : LOW);
+    bool isOtomatic = isOtomaticMode();
+    if(isOtomatic){
+        digitalWrite(RELAY_PIN, humidity > stdHum ? HIGH : LOW);
+    }else {
+        digitalWrite(RELAY_PIN, isOn());
+    }
     lcdPrint(0, 0, "Temp:" + String(temperature) + " C");
     lcdPrint(0,1, "Humidity:" + String(humidity) + " %");
     sendToBlynk(temperature, humidity);

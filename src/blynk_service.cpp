@@ -10,6 +10,20 @@ int stdTemp = 0;
 int stdHum = 0;
 int lastStdTemp = -1000;
 int lastStdHum = -1000;
+bool switchState = 0;
+bool isOtomatic = 1;
+
+
+BLYNK_WRITE(V5){
+    int val = param.asInt();
+    isOtomatic = val;
+    Serial.println("Received automatic mode state from Blynk: " + String(isOtomatic));
+}
+BLYNK_WRITE(V2){
+    int val = param.asInt();
+    switchState = val;
+    Serial.println("Received switch state from Blynk: " + String(switchState));
+}
 
 BLYNK_WRITE(V7){
     int val = param.asInt();
@@ -22,7 +36,7 @@ BLYNK_WRITE(V6){
     Serial.println("Received standard temperature from Blynk: " + String(stdTemp));
 }
 BLYNK_CONNECTED(){
-    Blynk.syncVirtual(V7,V6);
+    Blynk.syncVirtual(V7,V6,V2,V5);
 }
 
 void initBlynk() {
@@ -61,4 +75,12 @@ int getStdHum(){
     Serial.println("Standard humidity : " + String(stdHum));
     lastStdHum = stdHum;
     return stdHum;
+}
+
+bool isOn(){
+    return switchState;
+}
+
+bool isOtomaticMode(){
+    return isOtomatic;
 }

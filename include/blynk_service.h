@@ -6,4 +6,6 @@ void runBlynk();
 void sendToBlynk(float temperature, float humidity);
 int getStdTemp();
 int getStdHum();
+bool isOn();
+bool isOtomaticMode();
 #endif
