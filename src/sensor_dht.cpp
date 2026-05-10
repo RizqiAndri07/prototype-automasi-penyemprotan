@@ -6,7 +6,7 @@
 DHTesp dht;
 
 void initDHT() {
-    dht.setup(DHT_PIN, DHTesp::DHT22);
+    dht.setup(DHT_PIN, DHTesp::DHT11);
 }
 float getTemperature() {
     float temperature = dht.getTemperature();

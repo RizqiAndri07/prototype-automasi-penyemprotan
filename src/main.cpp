@@ -4,7 +4,9 @@
 #include "lcd_display.h"
 #include "blynk_service.h"
 #include "wifi_conn.h"
-#define RELAY_PIN 5
+#define RELAY_PIN 27
+#define RELAY_ON LOW
+#define RELAY_OFF HIGH
 
 void setup() {
     Serial.begin(115200);
@@ -13,6 +15,7 @@ void setup() {
     connectToWiFi();
     initBlynk();
     pinMode(RELAY_PIN, OUTPUT);
+    digitalWrite(RELAY_PIN, RELAY_OFF);
 }
 void loop() {
     runBlynk();
@@ -21,9 +24,9 @@ void loop() {
     int stdHum = getStdHum();
     bool isOtomatic = isOtomaticMode();
     if(isOtomatic){
-        digitalWrite(RELAY_PIN, humidity > stdHum ? HIGH : LOW);
+        digitalWrite(RELAY_PIN, humidity < stdHum ? RELAY_ON : RELAY_OFF);
     }else {
-        digitalWrite(RELAY_PIN, isOn());
+        digitalWrite(RELAY_PIN, isOn() ? RELAY_ON : RELAY_OFF);
     }
     lcdPrint(0, 0, "Temp:" + String(temperature) + " C");
     lcdPrint(0,1, "Humidity:" + String(humidity) + " %");
